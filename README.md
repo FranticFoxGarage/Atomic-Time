@@ -40,7 +40,7 @@ Pin numbers refer to the CM4-NANO-B 40-pin GPIO header on the waveshare board I 
 | 2 | 5V | Power | GPS VCC, CM4 power in |
 | 3 | GPIO2 (SDA) | I2C data | OLED SDA |
 | 5 | GPIO3 (SCL) | I2C clock | OLED SCL |
-| 6 | GND | Ground | GPS GND, CM4 power GND |
+| 6 | GND | Ground | To ground bus, shared across everything |
 | 8 | GPIO14 (TXD) | UART TX | GPS RXD |
 | 9 | GND | Ground | OLED GND |
 | 10 | GPIO15 (RXD) | UART RX | GPS TXD |
