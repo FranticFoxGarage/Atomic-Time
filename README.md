@@ -25,7 +25,7 @@ The OLED display shows satellite count, lock status, the active chrony source, G
 | Frequency divider | eBay board converts 10MHz to 1Hz for PPS on GPIO27 (/dev/pps1) |
 | RF transformer | 18:6 flux-coupled RF transformer between Rb SMA and divider input, steps up ~1.4Vpp to ~4.2Vpp (divider board needs +10dBm minimum) |
 | Display | 2.42" SSD1309 128x64 green OLED, I2C at 0x3C |
-| Chassis | Generic 1U rackmount off eBay, front panel cut for display and LEDs |
+| Chassis | Generic 1U rackmount off eBay, front panel cut for display|
 | LEDs | Green (3.3V, always on), Red on GPIO24 (on = Rb unlocked), Yellow on GPIO25 (1Hz flash on error) |
 
 The FE-5680a runs direct from the 15V/3A power supply. The CM4 is powered through the GPIO header via a converter to bring the 15v down to 5v - havnt messured the amp draw but its fine probobly. The rubidium unit draws about 2A at cold start and settles to around 180mA once warm. It takes roughly 5-15 minutes to achieve physics lock after power-on from a cold start.
