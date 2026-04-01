@@ -1,0 +1,13 @@
+[Unit]
+Description=Time Server OLED Display
+After=gpsd.service chrony.service
+Wants=gpsd.service
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/timeserver/display.py
+User=bgoss
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

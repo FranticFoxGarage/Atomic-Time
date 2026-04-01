@@ -1,0 +1,14 @@
+[Unit]
+Description=Calibrate Rb PPS offset against GPS PPS
+After=chrony.service gpsd.service
+Wants=chrony.service gpsd.service
+ConditionPathExists=/dev/pps1
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/timeserver/rb-calibrate.py
+RemainAfterExit=yes
+TimeoutStartSec=1200
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=Time Server LED Status
+After=gpsd.service
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/timeserver/leds.py
+User=bgoss
+Restart=always
+RestartSec=5
+KillMode=control-group
+KillSignal=SIGKILL
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target
