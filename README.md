@@ -165,6 +165,6 @@ So really not any better than GPS but this kinda checks out when you consider ne
 
 ## Why not use PTP??
 
-Hardware timestamping on the CM4's bcmgenet Ethernet driver is busted on the kernel im running (6.12) TX timestamps never arrive and ptp4l faults the moment it tries to send a sync packet. This is a known bug (raspberrypi/linux#5947) Software timestamping doesn't work either because the driver doesn't have software-transmit support. There are ways to work around this mostly by switching kernels or recompiling one yourself but I dont really use PTP for anything yet.
+Hardware timestamping on the CM4's bcmgenet Ethernet driver is busted on the kernel im running (6.12) TX timestamps never arrive and ptp4l faults the moment it tries to send a sync packet. There are ways to work around this mostly by switching kernels or recompiling one yourself but I dont really use PTP for anything yet.
 
-PTP is disabled for now on my setup but if the day come i need it ill cross that bridge then.
+PTP is disabled for now on my setup but if the day comes i need it ill cross that bridge then.
