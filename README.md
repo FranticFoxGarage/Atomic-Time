@@ -100,8 +100,6 @@ Just uses NTP from the debian time server pool. This is also what it does at boo
 
 `rb-calibrate.py` runs at boot. The frequency divider starts counting from whenever it powers on, so the Rb 1Hz pulse lands at a random offset within the second each time. This script waits for lock to hold 60 straight seconds, checks both PPS sources are alive, takes 10 offset samples comparing GPS PPS to Rb PPS, writes the measured offset into chrony.conf, and restarts chrony. All timeouts use time.monotonic() because chrony likes to step the clock by months at boot and that was breaking time.time() based timeouts.
 
-`ptp4l.conf` is the PTP grandmaster config. clockClass 6, hardware timestamping, tx_timestamp_timeout at 100ms, linreg clock servo. Currently not running because of a bcmgenet driver bug on kernel 6.12 (see PTP section below).
-
 `gpsd` is /etc/default/gpsd. Points at /dev/serial0 with -n so it starts polling right away without waiting for a client mostly a stock config.
 
 `config.txt` is for defining my PPS overlays on GPIO18 and GPIO27, UART on, Bluetooth and WiFi off, I2C at 1MHz, RTC and fan overlays. Audio commented out because it wants GPIO18 which is the GPS PPS pin and I dont have any plans to make my atomic clock make sound. Geiger counter hiss on the hour would be kinda neat though. 
@@ -119,10 +117,6 @@ All run as user bgoss with KillMode=control-group.
 `timeserver-leds.service` runs leds.py. Has KillSignal=SIGKILL and TimeoutStopSec=5 because the gpioset child processes don't die cleanly on SIGTERM.
 
 `rb-calibrate.service` is a oneshot that runs rb-calibrate.py after chrony and gpsd are up. Waits about 20 min for the Rb time to warm up from cold. ConditionPathExists=/dev/pps1 means it won't run at all if the Rb PPS device isn't there.
-
-`ptp4l.service` runs ptp4l with -m so logs go to stdout/journald. Currently disabled.
-
-`phc2sys.service` syncs the system clock to the Ethernet PHC. Requires ptp4l. Currently disabled.
 
 ### Kernel tuning
 
@@ -169,7 +163,7 @@ Over 500us:    897 (34.3%)
 
 So really not any better than GPS but this kinda checks out when you consider network delays and the CM4 being bottle necks. In a perfect world the server is closer to sub-microsecond from UTC but this is not a perfect world. For comparison pool.ntp.org usually gets you somewhere in the 5-50ms (+/-0.025 seconds) range so im quite happy with 400us (+/-0.0004 seconds) from UTC...just a lil better.
 
-## PTP status
+## Why not use PTP??
 
 Hardware timestamping on the CM4's bcmgenet Ethernet driver is busted on the kernel im running (6.12) TX timestamps never arrive and ptp4l faults the moment it tries to send a sync packet. This is a known bug (raspberrypi/linux#5947) Software timestamping doesn't work either because the driver doesn't have software-transmit support. There are ways to work around this mostly by switching kernels or recompiling one yourself but I dont really use PTP for anything yet.
 
